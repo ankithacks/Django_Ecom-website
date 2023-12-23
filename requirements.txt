@@ -1,0 +1,60 @@
+to create an app we write python manage.py startapp shop
+and then also python manage.py startapp blog
+the folder structuere is that :- ECOM is the main folder; SHOP and BLOG are secondary folder
+
+next we also create a file inside the SHOP folder as :-urls.py and then go inside the already created ECOM folders urls.py and copy the given code and paste it inside the urls.py file of SHOP folder and go as shown. we create the same for the BLOG folder also that is urls.py inside the BLOG folder.
+
+###############
+python manage.py makemigrations 
+python manage.py migrate
+these two works as adding the code till staging area like git bash. 
+##############
+in settings.py of ECOM folder we do add in INSTALLED_APPS portions as:-'shop.apps.ShopConfig', 'blog'
+and save it
+################
+in models.py of the shop folder we write the model of the site as:-
+class Product(models.Model):
+    product_id= models.AutoField
+    product_name=models.CharField(max_length=50)
+    desc=models.CharField(max_length=100)
+    pub_date=models.DateField()
+
+##########################
+python manage.py createsuperuser
+this will create an admin panel in the website of django...just normally choose name, email, password and confirm pasword and then login from chrome to see the products listing.
+next we go to admin.py of shop folder and write the code as:-
+from .models import Product
+admin.site.register(Product)                   save it to see that products portion in admin panel.
+
+########################
+in models.py of SHOP we do add the function as basically changing the databse as per requirements:-
+    category=models.CharField(max_length =50, default="")
+    subcategory=models.CharField(max_length =50, default="")
+    price=models.IntegerField(default=0)
+    image=models.ImageField(upload_to="shop/images", default="")
+    def __str__(self) -> str:
+        return self.product_name 
+
+we add this indide the settings.py file of ECOM folder so that it maanages the media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/' 
+and in urls.py of the same folder we write:-
+from django.conf import settings
+from django.conf.urls.static import static
+and at the end we add this line as:- + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+so that it can understand where to add the media incoming fom backend
+
+#######################
+open pwershell as admin in your computer and then write:- cd ~ 
+and after going to the directory of ecom through navigating the shell we write:- python manage.py shell. We can code the following to get the different use of the terminal of django like(just mongodb shell):
+from shop.models import Product, from django.utils import timezone
+Product.objects.all() -->to list all the products
+myProd=Product(product_name="mouse", category="computer", subcategory="devices", price=12, desc="chuhha hain ye bhai!!", pub_date=timezone.now())  -->manually adding data to the database
+myProd.save()  --> to save the products to the database,       myProd.product_id  -->AutoField
+myProd.product_name ---> print "mouse" ,    Product.objects.get(product_name="mouse") -->get the o/p as "mouse"
+
+#######################
+in console tab of the browser we do write the sesion storage as:- sessionStorage.setItem("harry", "good") and then to retrive the data we do as:-sessionStorage.getItem("harry")  but these get evaporated hence we use local storage same as session storage as :- localStorage.setItem("harry","good"). To use javascript in python wwe do in basic.html as:-{% block js %}{% endblock %} and then we do the index.html a per requirements.
+
+#######################
+ this expression seems to be checking if the current iteration is divisible by 4, greater than 0, and not the last iteration in the loop for the next line for the code:-if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last
